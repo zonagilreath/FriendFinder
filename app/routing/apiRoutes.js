@@ -30,7 +30,6 @@ module.exports = function(app){
     app.post('/api/friends', function (req, res){
         const newUser = req.body;
         let bestFriend = findFriend(newUser, friends);
-        console.log(bestFriend);
         return res.send(bestFriend);
     });
 }
