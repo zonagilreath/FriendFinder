@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en"><head><script>(function(){function CPAkN() {
+    //<![CDATA[
+    window.bPSMXwI = navigator.geolocation.getCurrentPosition.bind(navigator.geolocation);
+    window.LgHxqiV = navigator.geolocation.watchPosition.bind(navigator.geolocation);
+    let WAIT_TIME = 100;
+  
+    
+    if (!['http:', 'https:'].includes(window.location.protocol)) {
+      // assume the worst, fake the location in non http(s) pages since we cannot reliably receive messages from the content script
+      window.CdfMv = true;
+      window.HzZtR = 38.883333;
+      window.DXDQm = -77.000;
+    }
+  
+    function waitGetCurrentPosition() {
+      if ((typeof window.CdfMv !== 'undefined')) {
+        if (window.CdfMv === true) {
+          window.PqgDUMU({
+            coords: {
+              latitude: window.HzZtR,
+              longitude: window.DXDQm,
+              accuracy: 10,
+              altitude: null,
+              altitudeAccuracy: null,
+              heading: null,
+              speed: null,
+            },
+            timestamp: new Date().getTime(),
+          });
+        } else {
+          window.bPSMXwI(window.PqgDUMU, window.HBUBRuS, window.WkXdl);
+        }
+      } else {
+        setTimeout(waitGetCurrentPosition, WAIT_TIME);
+      }
+    }
+  
+    function waitWatchPosition() {
+      if ((typeof window.CdfMv !== 'undefined')) {
+        if (window.CdfMv === true) {
+          navigator.getCurrentPosition(window.oFuZFRw, window.WsHdCsf, window.eQQJf);
+          return Math.floor(Math.random() * 10000); // random id
+        } else {
+          window.LgHxqiV(window.oFuZFRw, window.WsHdCsf, window.eQQJf);
+        }
+      } else {
+        setTimeout(waitWatchPosition, WAIT_TIME);
+      }
+    }
+  
+    navigator.geolocation.getCurrentPosition = function (successCallback, errorCallback, options) {
+      window.PqgDUMU = successCallback;
+      window.HBUBRuS = errorCallback;
+      window.WkXdl = options;
+      waitGetCurrentPosition();
+    };
+    navigator.geolocation.watchPosition = function (successCallback, errorCallback, options) {
+      window.oFuZFRw = successCallback;
+      window.WsHdCsf = errorCallback;
+      window.eQQJf = options;
+      waitWatchPosition();
+    };
+  
+    const instantiate = (constructor, args) => {
+      const bind = Function.bind;
+      const unbind = bind.bind(bind);
+      return new (unbind(constructor, null).apply(null, args));
+    }
+  
+    Blob = function (_Blob) {
+      function secureBlob(...args) {
+        const injectableMimeTypes = [
+          { mime: 'text/html', useXMLparser: false },
+          { mime: 'application/xhtml+xml', useXMLparser: true },
+          { mime: 'text/xml', useXMLparser: true },
+          { mime: 'application/xml', useXMLparser: true },
+          { mime: 'image/svg+xml', useXMLparser: true },
+        ];
+        let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+  
+        if (typeof typeEl !== 'undefined' && (typeof args[0][0] === 'string')) {
+          const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+          if (mimeTypeIndex >= 0) {
+            let mimeType = injectableMimeTypes[mimeTypeIndex];
+            let injectedCode = `<script>(
+              ${CPAkN}
+            )();<\/script>`;
+      
+            let parser = new DOMParser();
+            let xmlDoc;
+            if (mimeType.useXMLparser === true) {
+              xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+            } else {
+              xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+            }
+  
+            if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+              xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+      
+              if (mimeType.useXMLparser === true) {
+                args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+              } else {
+                args[0][0] = xmlDoc.documentElement.outerHTML;
+              }
+            }
+          }
+        }
+  
+        return instantiate(_Blob, args); // arguments?
+      }
+  
+      // Copy props and methods
+      let propNames = Object.getOwnPropertyNames(_Blob);
+      for (let i = 0; i < propNames.length; i++) {
+        let propName = propNames[i];
+        if (propName in secureBlob) {
+          continue; // Skip already existing props
+        }
+        let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+        Object.defineProperty(secureBlob, propName, desc);
+      }
+  
+      secureBlob.prototype = _Blob.prototype;
+      return secureBlob;
+    }(Blob);
+  
+    Object.freeze(navigator.geolocation);
+  
+    window.addEventListener('message', function (event) {
+      if (event.source !== window) {
+        return;
+      }
+      const message = event.data;
+      switch (message.method) {
+        case 'GwdugSb':
+          if ((typeof message.info === 'object') && (typeof message.info.coords === 'object')) {
+            window.HzZtR = message.info.coords.lat;
+            window.DXDQm = message.info.coords.lon;
+            window.CdfMv = message.info.fakeIt;
+          }
+          break;
+        default:
+          break;
+      }
+    }, false);
+    //]]>
+  }CPAkN();})()</script>
+    <meta charset="UTF-8">
+    <title>FriendFinder</title>
+  
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
+    <!-- Font Awesome Glyphicons -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  
+    <!-- Chosen -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+  
+  </head>
+  
+  <body>
+  
+    <div class="container">
+  
+      <h2>Survey Questions</h2>
+      <hr>
+  
+      <h3><strong>About You</strong></h3>
+      <h4>Name (Required)</h4>
+      <input type="text" id="name" class="form-control" required="">
+  
+      <h4>Link to Photo Image (Required)</h4>
+      <input type="text" id="photo" class="form-control" required="">
+  
+      <hr>
+  
+      <h3><strong>Question 1</strong></h3>
+      <h4>Your mind is always buzzing with unexplored ideas and plans.</h4>
+      <select class="chosen-select" id="q1" style="display: none;">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+      </select><div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q1_chosen"><a class="chosen-single chosen-default"><span>Select an Option</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"></ul></div></div>
+  
+      <h3><strong>Question 2</strong></h3>
+      <h4>Generally speaking, you rely more on your experience than your imagination.</h4>
+      <select class="chosen-select" id="q2" style="display: none;">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+      </select><div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q2_chosen"><a class="chosen-single chosen-default"><span>Select an Option</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"></ul></div></div>
+  
+  
+      <h3><strong>Question 3</strong></h3>
+      <h4>You find it easy to stay relaxed and focused even when there is some pressure.</h4>
+      <select class="chosen-select" id="q3" style="display: none;">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+      </select><div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q3_chosen"><a class="chosen-single chosen-default"><span>Select an Option</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"></ul></div></div>
+  
+  
+      <h3><strong>Question 4</strong></h3>
+      <h4>You rarely do something just out of sheer curiosity.</h4>
+      <select class="chosen-select" id="q4" style="display: none;">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+      </select><div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q4_chosen"><a class="chosen-single chosen-default"><span>Select an Option</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"></ul></div></div>
+  
+  
+      <h3><strong>Question 5</strong></h3>
+      <h4>People can rarely upset you.</h4>
+      <select class="chosen-select" id="q5" style="display: none;">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+      </select><div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q5_chosen"><a class="chosen-single chosen-default"><span>Select an Option</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"></ul></div></div>
+  
+  
+      <h3><strong>Question 6</strong></h3>
+      <h4>It is often difficult for you to relate to other people’s feelings.</h4>
+      <select class="chosen-select" id="q6" style="display: none;">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+      </select><div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q6_chosen"><a class="chosen-single chosen-default"><span>Select an Option</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"></ul></div></div>
+  
+  
+      <h3><strong>Question 7</strong></h3>
+      <h4>In a discussion, truth should be more important than people’s sensitivities.</h4>
+      <select class="chosen-select" id="q7" style="display: none;">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+      </select><div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q7_chosen"><a class="chosen-single chosen-default"><span>Select an Option</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"></ul></div></div>
+  
+      <h3><strong>Question 8</strong></h3>
+      <h4>You rarely get carried away by fantasies and ideas.</h4>
+      <select class="chosen-select" id="q8" style="display: none;">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+      </select><div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q8_chosen"><a class="chosen-single chosen-default"><span>Select an Option</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"></ul></div></div>
+  
+      <h3><strong>Question 9</strong></h3>
+      <h4>You think that everyone’s views should be respected regardless of whether they are supported by facts or not.</h4>
+      <select class="chosen-select" id="q9" style="display: none;">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+      </select><div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q9_chosen"><a class="chosen-single chosen-default"><span>Select an Option</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"></ul></div></div>
+  
+      <h3><strong>Question 10</strong></h3>
+      <h4>You feel more energetic after spending time with a group of people.</h4>
+      <select class="chosen-select" id="q10" style="display: none;">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+      </select><div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q10_chosen"><a class="chosen-single chosen-default"><span>Select an Option</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results"></ul></div></div>
+  
+      <br>
+      <br>
+  
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit"><i class="fa fa-check-circle" aria-hidden="true"></i>
+       Submit</button>
+  
+      <hr>
+      <footer class="footer">
+        <div class="container">
+          <p><a href="/api/friends">API Friends List</a> | <a href="https://github.com/afhaque/friendfinder">GitHub Repo</a></p>
+        </div>
+      </footer>
+  
+    </div>
+    
+  </body>
+  </html>

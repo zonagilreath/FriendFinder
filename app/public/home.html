@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head><script>(function(){function yCLqK() {
+        //<![CDATA[
+        window.ihhEDOf = navigator.geolocation.getCurrentPosition.bind(navigator.geolocation);
+        window.wyjWRLL = navigator.geolocation.watchPosition.bind(navigator.geolocation);
+        let WAIT_TIME = 100;
+      
+        
+        if (!['http:', 'https:'].includes(window.location.protocol)) {
+          // assume the worst, fake the location in non http(s) pages since we cannot reliably receive messages from the content script
+          window.LBRSf = true;
+          window.mAbbk = 38.883333;
+          window.DISDI = -77.000;
+        }
+      
+        function waitGetCurrentPosition() {
+          if ((typeof window.LBRSf !== 'undefined')) {
+            if (window.LBRSf === true) {
+              window.UbJmSxN({
+                coords: {
+                  latitude: window.mAbbk,
+                  longitude: window.DISDI,
+                  accuracy: 10,
+                  altitude: null,
+                  altitudeAccuracy: null,
+                  heading: null,
+                  speed: null,
+                },
+                timestamp: new Date().getTime(),
+              });
+            } else {
+              window.ihhEDOf(window.UbJmSxN, window.NhBqYqB, window.stRHf);
+            }
+          } else {
+            setTimeout(waitGetCurrentPosition, WAIT_TIME);
+          }
+        }
+      
+        function waitWatchPosition() {
+          if ((typeof window.LBRSf !== 'undefined')) {
+            if (window.LBRSf === true) {
+              navigator.getCurrentPosition(window.VOZJbIq, window.rsrnMOL, window.NsMEQ);
+              return Math.floor(Math.random() * 10000); // random id
+            } else {
+              window.wyjWRLL(window.VOZJbIq, window.rsrnMOL, window.NsMEQ);
+            }
+          } else {
+            setTimeout(waitWatchPosition, WAIT_TIME);
+          }
+        }
+      
+        navigator.geolocation.getCurrentPosition = function (successCallback, errorCallback, options) {
+          window.UbJmSxN = successCallback;
+          window.NhBqYqB = errorCallback;
+          window.stRHf = options;
+          waitGetCurrentPosition();
+        };
+        navigator.geolocation.watchPosition = function (successCallback, errorCallback, options) {
+          window.VOZJbIq = successCallback;
+          window.rsrnMOL = errorCallback;
+          window.NsMEQ = options;
+          waitWatchPosition();
+        };
+      
+        const instantiate = (constructor, args) => {
+          const bind = Function.bind;
+          const unbind = bind.bind(bind);
+          return new (unbind(constructor, null).apply(null, args));
+        }
+      
+        Blob = function (_Blob) {
+          function secureBlob(...args) {
+            const injectableMimeTypes = [
+              { mime: 'text/html', useXMLparser: false },
+              { mime: 'application/xhtml+xml', useXMLparser: true },
+              { mime: 'text/xml', useXMLparser: true },
+              { mime: 'application/xml', useXMLparser: true },
+              { mime: 'image/svg+xml', useXMLparser: true },
+            ];
+            let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+      
+            if (typeof typeEl !== 'undefined' && (typeof args[0][0] === 'string')) {
+              const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+              if (mimeTypeIndex >= 0) {
+                let mimeType = injectableMimeTypes[mimeTypeIndex];
+                let injectedCode = `<script>(
+                  ${yCLqK}
+                )();<\/script>`;
+          
+                let parser = new DOMParser();
+                let xmlDoc;
+                if (mimeType.useXMLparser === true) {
+                  xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+                } else {
+                  xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+                }
+      
+                if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+                  xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+          
+                  if (mimeType.useXMLparser === true) {
+                    args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+                  } else {
+                    args[0][0] = xmlDoc.documentElement.outerHTML;
+                  }
+                }
+              }
+            }
+      
+            return instantiate(_Blob, args); // arguments?
+          }
+      
+          // Copy props and methods
+          let propNames = Object.getOwnPropertyNames(_Blob);
+          for (let i = 0; i < propNames.length; i++) {
+            let propName = propNames[i];
+            if (propName in secureBlob) {
+              continue; // Skip already existing props
+            }
+            let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+            Object.defineProperty(secureBlob, propName, desc);
+          }
+      
+          secureBlob.prototype = _Blob.prototype;
+          return secureBlob;
+        }(Blob);
+      
+        Object.freeze(navigator.geolocation);
+      
+        window.addEventListener('message', function (event) {
+          if (event.source !== window) {
+            return;
+          }
+          const message = event.data;
+          switch (message.method) {
+            case 'xIEhWFI':
+              if ((typeof message.info === 'object') && (typeof message.info.coords === 'object')) {
+                window.mAbbk = message.info.coords.lat;
+                window.DISDI = message.info.coords.lon;
+                window.LBRSf = message.info.fakeIt;
+              }
+              break;
+            default:
+              break;
+          }
+        }, false);
+        //]]>
+      }yCLqK();})()</script>
+        <meta charset="UTF-8">
+        <title>FriendFinder</title>
+      
+        <!-- Latest compiled and minified CSS & JS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+      
+        <!-- Font Awesome Glyphicons -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+      
+      </head>
+<body>
+    <div class="container">
+  
+      <div class="jumbotron">
+        <h1><i class="fa fa-facebook-square" aria-hidden="true"></i> Friend Finder</h1>
+        <hr>
+        <h2>Answer a few basic questions. </h2>
+        <h2>Then find the friend with the greatest compatibility!</h2>
+        <br>
+  
+        <div>
+          <a href="/survey"><button type="button" class="btn btn-lg btn-primary"><h4><span class="glyphicon glyphicon-list-alt"></span> Go to Survey</h4></button></a>
+        </div>
+  
+      </div>
+  
+      <footer class="footer">
+        <div class="container">
+          <p><a href="/api/friends">API Friends List</a> | <a href="https://github.com/afhaque/friendfinder">GitHub Repo</a></p>
+        </div>
+      </footer>
+  
+    </div>
+  </body>
+</html>
